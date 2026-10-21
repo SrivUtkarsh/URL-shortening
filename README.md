@@ -38,20 +38,18 @@ The project combines REST API development, database integration, caching, revers
 - **RESTful APIs** — Expose URL management functionality through FastAPI.
 - **Reverse Proxy** — Use Nginx to route incoming requests to the application.
 - **Containerization** — Use Docker to package and run application services.
-- **Interactive API Documentation** — Explore and test endpoints using Swagger UI.
 
 ## Tech Stack
 
 | Technology | Purpose |
 |:---|:---|
-| Python | Backend development |
 | FastAPI | REST API framework |
 | PostgreSQL | Relational database |
 | Redis | URL caching |
 | Nginx | Reverse proxy and request routing |
 | Docker | Containerization |
 | SQLAlchemy | Database ORM, if configured |
-| Swagger UI | API documentation and testing |
+
 
 
 ## System Architecture
