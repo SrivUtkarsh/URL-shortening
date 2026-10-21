@@ -1,6 +1,6 @@
 # <div align="center">URL Shortener</div>
 
- <div align="center">
+<div align="center">
 
 <img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
 <img src="https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white" alt="FastAPI" />
@@ -9,263 +9,252 @@
 <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker" />
 <img src="https://img.shields.io/badge/Nginx-009639?style=for-the-badge&logo=nginx&logoColor=white" alt="Nginx" />
 
+<br><br>
+
+**A fast, scalable URL shortening service built with modern backend technologies.**
+
 </div>
 
 ---
 
-This project is actively under development, with ongoing improvements to authentication, rate limiting, monitoring, performance optimization, and database reliability.
+> **Project Status: Work in Progress**
+>
+> This project is actively under development, with ongoing improvements to authentication, rate limiting, monitoring, performance optimization, and database reliability.
 
-A backend project focused on efficient URL redirection, Redis caching, click analytics, and request handling.
+## Overview
 
-**Current status:** Actively under development, with ongoing work on authentication, rate limiting, monitoring, performance optimization, and database reliability.
-A URL shortening service built with FastAPI, Redis, PostgreSQL, Nginx, and Docker. The project focuses on building a backend service with fast URL redirection, caching, click analytics, and efficient request handling.
+A backend URL shortening service that converts long URLs into short, shareable links. It uses Redis caching to reduce repeated database lookups and supports URL redirection, custom aliases, expiration, and click analytics.
 
-Project Status: Work in Progress
+The project combines REST API development, database integration, caching, reverse proxying, and containerization.
 
-This project is actively under development, with ongoing improvements to authentication, rate limiting, monitoring, performance, and database reliability.
+## Features
 
-Features
+- **URL Shortening** — Convert long URLs into short, shareable links.
+- **Fast Redirection** — Redirect users to their original URLs using unique short codes.
+- **Redis Caching** — Cache frequently accessed URLs to reduce database queries and improve response times.
+- **Custom Aliases** — Support personalized short codes for URLs.
+- **URL Expiration** — Support expiration for shortened URLs.
+- **Click Analytics** — Track the number of times a shortened URL is accessed.
+- **RESTful APIs** — Expose URL management functionality through FastAPI.
+- **Reverse Proxy** — Use Nginx to route incoming requests to the application.
+- **Containerization** — Use Docker to package and run application services.
+- **Interactive API Documentation** — Explore and test endpoints using Swagger UI.
 
-URL Shortening: Convert long URLs into short, shareable links.
+## Tech Stack
 
-Fast Redirection: Redirect users to their original URLs using unique short codes.
+| Technology | Purpose |
+|:---|:---|
+| Python | Backend development |
+| FastAPI | REST API framework |
+| PostgreSQL | Relational database |
+| Redis | URL caching |
+| Nginx | Reverse proxy and request routing |
+| Docker | Containerization |
+| SQLAlchemy | Database ORM, if configured |
+| Swagger UI | API documentation and testing |
 
-Redis Caching: Cache frequently accessed URLs to reduce database queries and improve response times.
 
-Custom Aliases: Support personalized short codes for URLs.
+## System Architecture
 
-URL Expiration: Configure expiration for shortened URLs.
+```text
+                    ┌──────────────┐
+                    │    Client    │
+                    └──────┬───────┘
+                           │
+                           ▼
+                ┌────────────────────┐
+                │   Nginx Reverse    │
+                │       Proxy        │
+                └─────────┬──────────┘
+                          │
+                          ▼
+                ┌────────────────────┐
+                │   FastAPI App      │
+                │                    │
+                │ URL Shortening     │
+                │ Redirection        │
+                │ Click Analytics    │
+                └─────────┬──────────┘
+                          │
+                 ┌────────┴────────┐
+                 │                 │
+                 ▼                 ▼
+        ┌────────────────┐  ┌────────────────┐
+        │  Redis Cache   │  │   PostgreSQL   │
+        │                │  │                │
+        │ Cached URLs    │  │ Persistent URL │
+        │                │  │ Records        │
+        └────────────────┘  └────────────────┘
+```
 
-Click Analytics: Track the number of times a shortened URL is accessed.
+### Request Flow
 
-RESTful APIs: Expose URL management functionality through FastAPI.
+1. The client sends an HTTP request through Nginx.
+2. Nginx forwards the request to the FastAPI application.
+3. For URL redirection, FastAPI checks Redis for the requested short code.
+4. If the URL is not cached, FastAPI retrieves the corresponding record from PostgreSQL.
+5. The URL can then be cached in Redis for subsequent requests.
+6. FastAPI redirects the client to the original destination.
 
-Nginx Reverse Proxy: Route incoming requests to the FastAPI application.
+*The diagram illustrates the intended architecture. The actual request flow depends on the application's current implementation.*
+### Request Flow
 
-Docker: Containerize application services for consistent development and deployment.
+1. The client sends an HTTP request through Nginx.
+2. Nginx forwards the request to the FastAPI application.
+3. For a redirection request, the application checks Redis for the short code.
+4. If the URL is not cached, the application retrieves the corresponding record from the database.
+5. The retrieved URL can be cached in Redis for subsequent requests.
+6. The application redirects the client to the original destination.
 
-Interactive API Documentation: Test endpoints using FastAPI's Swagger UI.
+*The diagram represents the intended cache-aside flow; the actual request flow depends on the current implementation.*
 
-Tech Stack
+## Getting Started
 
-Technology
+### Prerequisites
 
-Purpose
+Ensure the following tools are installed and configured as required by your setup:
 
-Python
+- Python 3.10+
+- Git
+- Docker
+- Redis
+- PostgreSQL, if used as the primary database
 
-Backend application development
+### 1. Clone the Repository
 
-FastAPI
-
-REST API framework
-
-PostgreSQL
-
-Relational database
-
-Redis
-
-Caching frequently accessed URLs
-
-Nginx
-
-Reverse proxy and request routing
-
-Docker
-
-Application containerization
-
-SQLAlchemy
-
-Database ORM, if configured
-
-Swagger UI
-
-API documentation and testing
-
-System Architecture
-
-                  Client
-                    |
-                    v
-              Nginx Reverse Proxy
-                    |
-                    v
-                FastAPI App
-                    |
-              URL Redirection
-                    |
-              +-----+-----+
-              |           |
-              v           v
-           Redis       PostgreSQL
-           Cache       Database
-
-Request Flow
-
-A client sends a request through Nginx.
-
-Nginx forwards the request to the FastAPI application.
-
-For URL redirection, the application checks Redis for the requested short code.
-
-If the URL is not cached, the application retrieves the corresponding record from the database.
-
-The retrieved URL can be cached in Redis for subsequent requests.
-
-FastAPI redirects the client to the original destination.
-
-The actual request flow depends on the application's implemented caching and database logic.
-
-Getting Started
-
-Prerequisites
-
-Make sure you have the following installed:
-
-Python 3.10 or later
-
-Git
-
-Docker
-
-Redis
-
-PostgreSQL
-
-1. Clone the Repository
-
+```bash
 git clone https://github.com/YOUR_USERNAME/YOUR_REPOSITORY.git
 cd YOUR_REPOSITORY
+```
 
-Replace YOUR_USERNAME and YOUR_REPOSITORY with your GitHub username and repository name.
+Replace `YOUR_USERNAME` and `YOUR_REPOSITORY` with your GitHub username and repository name.
 
-2. Create a Virtual Environment
+### 2. Create a Virtual Environment
 
+```bash
 python -m venv venv
+```
 
-Activate the virtual environment.
+Activate the environment.
 
-Windows — PowerShell
+**Windows — PowerShell**
 
+```powershell
 .\venv\Scripts\Activate.ps1
+```
 
-Linux / macOS
+**Linux / macOS**
 
+```bash
 source venv/bin/activate
+```
 
-3. Install Dependencies
+### 3. Install Dependencies
 
+```bash
 pip install -r requirements.txt
+```
 
-4. Configure Environment Variables
+### 4. Configure Environment Variables
 
-Create a .env file in the project root and configure the connection settings required by your application.
+Create a `.env` file in the project root and add the connection settings expected by your application.
 
 Example:
 
+```env
 DATABASE_URL=your_database_connection_string
 REDIS_URL=redis://localhost:6379/0
+```
 
-Update the variable names and values to match your application's configuration. If services run in Docker containers, use the appropriate service hostnames and ports.
+Update the variable names and values to match your application configuration. If services run in Docker containers, use the appropriate service hostnames.
 
-Security: Never commit database credentials, API keys, or other secrets to GitHub.
+**Security:** Never commit database credentials, API keys, or other secrets to GitHub.
 
-5. Start the Application
+### 5. Start the Application
 
-If your FastAPI instance is named app in main.py, run:
+If the FastAPI instance is named `app` in `main.py`, run:
 
+```bash
 uvicorn main:app --reload
+```
 
-6. Access the API Documentation
+### 6. Access the API Documentation
 
-If the application is running directly on port 8000, open:
+When running directly on port `8000`, open:
 
-http://127.0.0.1:8000/docs
+[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
-If Nginx exposes the application on port 8080, open:
+If Nginx exposes the application on port `8080`, open:
 
-http://localhost:8080/docs
+[http://localhost:8080/docs](http://localhost:8080/docs)
 
-Use the address that matches your configuration.
+Use the URL corresponding to your current configuration.
 
-Running with Docker
+## Running with Docker
 
-Build the Docker image if your repository includes a Dockerfile:
+If your repository contains a `Dockerfile`, build the image:
 
+```bash
 docker build -t url-shortener .
+```
 
 Run the application container:
 
+```bash
 docker run --name url-shortener -p 8000:8000 url-shortener
+```
 
-For containerized deployments, configure networking between FastAPI, Redis, PostgreSQL, and Nginx. Docker Compose can be used to manage multiple services together if a Compose configuration is available.
+For a multi-container setup, configure networking between FastAPI, Redis, PostgreSQL, and Nginx. Docker Compose can be used to manage these services together if a Compose configuration is available.
 
-API Endpoints
+## API Endpoints
 
-The service supports URL creation, redirection, and analytics functionality. The table below describes the intended operations; actual paths and HTTP methods depend on the implemented routes.
+The following table describes the core operations. Verify the exact routes and HTTP methods against your implementation.
 
-Operation
+| Operation | Method | Description |
+|:---|:---:|:---|
+| Create short URL | `POST` | Generate a short URL from a long URL |
+| Redirect to original URL | `GET` | Resolve a short code and redirect the client |
+| Retrieve analytics | `GET` | Retrieve click statistics |
+| Create custom alias | `POST` | Create a short URL with a custom alias |
 
-Method
+### Example Request
 
-Description
+A typical URL creation request might use the following JSON body:
 
-Create short URL
-
-POST
-
-Generate a short URL from a long URL
-
-Redirect to original URL
-
-GET
-
-Resolve a short code and redirect the client
-
-Retrieve analytics
-
-GET
-
-Retrieve click statistics
-
-Create custom alias
-
-POST
-
-Create a short URL with a custom alias
-
-Example: Create a Short URL
-
-A typical request body could look like this:
-
+```json
 {
   "url": "https://example.com/some/long/path"
 }
+```
 
-The response format depends on the application's implementation.
+The response schema depends on the implementation.
 
-Example: Access a Short URL
+### Example Redirection
 
+```text
 http://localhost:8080/{short_code}
+```
 
-Replace {short_code} with the code returned by the URL creation endpoint.
+Replace `{short_code}` with the generated short code.
 
-Refer to /docs for the exact request schemas, response formats, and endpoint paths.
+For the exact request schemas, response formats, and endpoint paths, refer to the interactive API documentation at `/docs`.
 
-Performance and Scalability
+## Performance and Scalability
 
-The project incorporates backend techniques that can improve performance and support future scaling.
+The project incorporates backend techniques intended to improve efficiency and support future scaling.
 
-Redis Caching: Reduces repeated database lookups for frequently accessed URLs.
+- **Redis Caching:** Reduces repeated database lookups for frequently accessed URLs.
+- **Nginx Reverse Proxy:** Provides a centralized entry point for incoming HTTP requests.
+- **Database Persistence:** Stores URL records and associated metadata.
+- **Docker Containerization:** Simplifies service configuration and deployment.
+- **Performance Evaluation:** Provides a foundation for measuring latency, throughput, and error rates under load.
 
-Nginx Reverse Proxy: Provides a centralized entry point for incoming HTTP requests.
+Actual performance and concurrency limits should be established through benchmarking and load testing.
 
-Database Persistence: Stores URL records and associated metadata.
+---
 
-Docker Containerization: Simplifies service configuration and deployment.
+<div align="center">
 
-Performance Evaluation: Provides a foundation for measuring latency, throughput, and error rates under load.
+**Built with FastAPI, Redis, PostgreSQL, Nginx, and Docker.**
 
-Actual performance and concurrency limits should be evaluated through benchmarking and load testing.
+</div>
